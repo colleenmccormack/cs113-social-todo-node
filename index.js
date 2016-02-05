@@ -153,8 +153,24 @@ app.post('/task/delete/:id', function(req, res){
 
 // Complete Tasks
 app.post('/task/complete/:id', function(req, res){
-  // Get the task to delete
-  console.log('Trying to complete a task.');
+  // Mark the task as complete
+  Tasks.findById(req.params.id, function(err, task){
+    if(task.isComplete){
+      Tasks.update({_id: req.params.id}, {isComplete: false}, function(err){
+        if(err) { res.send('Error un-marking the task.') }
+      });
+    }
+    else{
+      Tasks.update({_id: req.params.id}, {isComplete: true}, function(err){
+        if(err) { res.send('Error marking the task.') }
+      });
+    }
+  });
+
+
+  taskID = req.params.id;
+  taskID.isComplete = true;
+  res.redirect('/');
 });
 
 // Handle submission of new task form
