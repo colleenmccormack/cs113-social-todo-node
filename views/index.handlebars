@@ -16,9 +16,11 @@
             {{#each tasks}}
                 <li class="tasks-list-item">
                   <span class="task-title">{{this.title}}</span>
-                  <form action = "/task/delete/{{this._id}}" method="post">
+                  {{#if this.isOwner}}
+                    <form action = "/task/delete/{{this._id}}" method="post">
                     <input type="submit" name="delete-task" class="delete-task" value="Delete">
-                  </form>
+                    </form>
+                  {{/if}}
                   <form action = "/task/complete/{{this._id}}" method="post">
                     <input type="submit" name="toggle-task" class="toggle-task" value="Mark complete">
                   </form>

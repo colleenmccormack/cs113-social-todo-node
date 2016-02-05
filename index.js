@@ -65,13 +65,11 @@ function loadUserTasks(req, res, next) {
     .exec(function(err, tasks){
       if(!err){
         res.locals.tasks = tasks;
-        // for(var i = 0; i < tasks.length; i++)
-        // {
-        //   if res.locals.currentUser._id.toString == tasks[i].owner.toString
-        //   {
-            
-        //   }
-        // }
+        for(var i = 0; i < tasks.length; i++){
+          if(res.locals.currentUser._id.toString() == tasks[i].owner.toString()){
+            tasks[i].isOwner = true;
+          }
+        }
       }
       next();
   });
@@ -114,8 +112,6 @@ app.post('/user/register', function (req, res) {
   });
 });
 
-
-
 app.post('/user/login', function (req, res) {
   // Try to find this user by email
   Users.findOne({email: req.body.email}, function(err, user){
@@ -150,13 +146,8 @@ app.use(isLoggedIn);
 
 // Delete Tasks
 app.post('/task/delete/:id', function(req, res){
-  // Get the task to delete
-  console.log(Tasks.owner)
-  console.log(res.locals.currentUser._id)
-
-  console.log('Trying to delete a task.');
-  var taskID = "{_id : ObjectId(\"" + req.params.id + "\")}";
-  Tasks.find(taskID).remove().exec();
+  // Find the task and remove
+  Tasks.find({_id : req.params.id}).remove().exec();
   res.redirect('/');
 });
 
