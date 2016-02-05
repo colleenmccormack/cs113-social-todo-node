@@ -18,7 +18,7 @@
             <ul>
             {{#each tasks}}
                 {{#if this.isComplete}}
-                    <li class="tasks-list completed-item">
+                    <li class="tasks-list-item complete-task">
                       <span class="task-title">{{this.title}} <b> - COMPLETED! WAY TO BE PRODUCTIVE! </b></span>
                       <p style="margin-left: 40px">{{this.description}} </p>
                       {{#if this.isOwner}}
