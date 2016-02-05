@@ -153,7 +153,7 @@ app.post('/task/delete/:id', function(req, res){
 
 // Complete Tasks
 app.post('/task/complete/:id', function(req, res){
-  // Mark the task as complete
+  // Mark the task as complete by toggling in the task schema
   Tasks.findById(req.params.id, function(err, task){
     if(task.isComplete){
       Tasks.update({_id: req.params.id}, {isComplete: false}, function(err){
@@ -166,10 +166,6 @@ app.post('/task/complete/:id', function(req, res){
       });
     }
   });
-
-
-  taskID = req.params.id;
-  taskID.isComplete = true;
   res.redirect('/');
 });
 
