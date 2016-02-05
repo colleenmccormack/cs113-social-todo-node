@@ -65,6 +65,13 @@ function loadUserTasks(req, res, next) {
     .exec(function(err, tasks){
       if(!err){
         res.locals.tasks = tasks;
+        // for(var i = 0; i < tasks.length; i++)
+        // {
+        //   if res.locals.currentUser._id.toString == tasks[i].owner.toString
+        //   {
+            
+        //   }
+        // }
       }
       next();
   });
@@ -141,8 +148,27 @@ app.get('/user/logout', function(req, res){
 //  the user to be logged in.
 app.use(isLoggedIn);
 
+// Delete Tasks
+app.post('/task/delete/:id', function(req, res){
+  // Get the task to delete
+  console.log(Tasks.owner)
+  console.log(res.locals.currentUser._id)
+
+  console.log('Trying to delete a task.');
+  var taskID = "{_id : ObjectId(\"" + req.params.id + "\")}";
+  Tasks.find(taskID).remove().exec();
+  res.redirect('/');
+});
+
+// Complete Tasks
+app.post('/task/complete/:id', function(req, res){
+  // Get the task to delete
+  console.log('Trying to complete a task.');
+});
+
 // Handle submission of new task form
 app.post('/task/create', function(req, res){
+  //console.log('Task!');
   var newTask = new Tasks();
   newTask.owner = res.locals.currentUser._id;
   newTask.title = req.body.title;
